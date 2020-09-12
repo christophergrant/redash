@@ -37,7 +37,13 @@ def get_saml_client(org):
         acs_url = url_for("saml_auth.idp_initiated", org_slug=org.slug, _external=True)
 
     saml_settings = {
-        "metadata": {"remote": [{"url": metadata_url}]},
+        "metadata": {"inline": [metadata_inline]},
+        'xmlsec_binary': '/usr/bin/xmlsec1',
+        "delete_tmpfiles": False,
+        'encryption_keypairs': [{
+            'key_file': '/app/certs/key.pem',
+            'cert_file': '/app/certs/cert.pem',
+        }],
         "service": {
             "sp": {
                 "endpoints": {
